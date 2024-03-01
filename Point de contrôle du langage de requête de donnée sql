@@ -109,7 +109,6 @@ LEFT JOIN (
     WHERE p.Nom_produit = 'gadget'
     GROUP BY cm.id
 ) g ON g.id = c.id
-LEFT JOIN produit p_prix ON p_prix.Nom_produit IN ('widget', 'gadget')
 GROUP BY c.id;
 8) Écrivons une requête pour récupérer les noms des produits qui ont été commandés par au moins 
 un client, ainsi que la quantité totale de chaque produit commandé. 
