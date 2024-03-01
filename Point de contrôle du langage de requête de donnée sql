@@ -120,11 +120,11 @@ GROUP BY p.id_produit;
 9) Écrivons une requête pour récupérer les noms des clients qui ont passé le plus de commandes, 
 ainsi que le nombre total de commandes passées par chaque client. 
 SELECT c.Nom_client, 
-COUNT(cm.quantite) AS 'nombre_total_commandes' 
+COUNT(cm.id) AS 'nombre_total_commandes' 
 FROM client c 
 INNER JOIN commande cm ON c.id = cm.id 
-GROUP BY c.id 
-ORDER BY COUNT(cm.quantite) DESC LIMIT 2; 
+GROUP BY c.id
+ORDER BY COUNT(cm.id) ; 
 10) Écrivez une requête pour récupérer les noms des produits les plus commandés, ainsi que la 
 quantité totale de chaque produit commandé. 
 SELECT p.Nom_produit, 
@@ -132,7 +132,7 @@ SELECT p.Nom_produit,
 FROM produit p 
 INNER JOIN commande cm ON p.id_produit = cm.id_produit 
 GROUP BY p.id_produit 
-ORDER BY COUNT(cm.Quantite) DESC LIMIT 2; 
+ORDER BY COUNT(cm.Quantite) ; 
 11) Écrivez une requête pour récupérer les noms des clients qui ont passé une commande chaque 
 jour de la semaine, ainsi que le nombre total de commandes passées par chaque client. 
 SELECT c.Nom_client, 
