@@ -90,26 +90,18 @@ GROUP BY c.id;
 7) Écrivons une requête pour récupérer le nombre total de widgets et de gadgets commandés par 
 chaque client, ainsi que le coût total des commandes. 
 SELECT c.Nom_client,
- COALESCE(SUM(w.widget_total), 0) AS total_widget,
-COALESCE(SUM(g.gadget_total), 0) AS total_gadget,
- COALESCE(SUM(w.widget_total * p_prix.Prix_unitaire), 0) AS cout_total_widget,
- COALESCE(SUM(g.gadget_total * p_prix.Prix_unitaire), 0) AS cout_total_gadget
+ COALESCE(SUM(CASE WHEN p.Nom_produit = 'widget' THEN cm.Quantite ELSE 0 END), 0) AS total_widget,
+ COALESCE(SUM(CASE WHEN p.Nom_produit = 'gadget' THEN cm.Quantite ELSE 0 END), 0) AS total_gadget,
+ COALESCE(SUM(CASE WHEN p.Nom_produit = 'widget' THEN cm.Quantite * p.Price ELSE 0 END), 0) AS cout_total_widget,
+ COALESCE(SUM(CASE WHEN p.Nom_produit = 'gadget' THEN cm.Quantite * p.Price ELSE 0 END), 0) AS cout_total_gadget
 FROM client c
 LEFT JOIN (
- SELECT cm.id, SUM(cm.Quantite) AS widget_total
- FROM commande cm
- INNER JOIN produit p ON p.id_produit = cm.id_produit
- WHERE p.Nom_produit = 'widget'
-    GROUP BY cm.id
-) w ON w.id= c.id
-LEFT JOIN (
-    SELECT cm.id, SUM(cm.Quantite) AS gadget_total
-    FROM commande cm
-    INNER JOIN produit p ON p.id_produit = cm.id_produit
-    WHERE p.Nom_produit = 'gadget'
-    GROUP BY cm.id
-) g ON g.id = c.id
+SELECT id, id_produit, Quantite
+FROM commande
+) cm ON cm.id = c.id
+LEFT JOIN produit p ON p.id_produit = cm.id_produit
 GROUP BY c.id;
+
 8) Écrivons une requête pour récupérer les noms des produits qui ont été commandés par au moins 
 un client, ainsi que la quantité totale de chaque produit commandé. 
 SELECT p.Nom_produit, 
