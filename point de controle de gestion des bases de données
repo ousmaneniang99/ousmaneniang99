@@ -1,0 +1,103 @@
+1)	Convertissons le modèle conceptuel en modèle relationnel 
+
+
+Wine (numW, category, year, degree)
+Harvest (#numW,#numP, quantity)
+Producer (numP,firstName, lastName, region)
+
+2)	Implémentons le modèle relationnel á l’aide de SQL
+
+Création de la table Wine
+Create table Wine (
+numW int primary key,
+category varchar (20),
+year int,
+degree int ) ;
+
+
+
+Création de la table Producer
+Create table Producer(
+numP int primary key,
+firstName varchar(25),
+lastName (20),
+region varchar (20) ) ;
+
+
+Création de la table Harvest
+create table Harvest (
+numW int,
+numP int,
+quantite int
+Foreign key (numW) references Wine(numW)
+foreign key (numP) references Producer(numP) ) ;
+
+
+3)	Insérons des données dans les tables 
+
+Insert into Wine values (1,’rouge’,2019,12),
+(2,’blanc’, 1999, 14),
+(3,’rose’, 1886,10),
+(4,’Merlot’, 1996,20),
+(5,’Pinot Noir ‘, 1887, 56) 
+(6,’sec’,1995,15); 
+
+Insert into Producer values (1,’ousmane’, ‘Niang’, ‘Sousse),
+(2,’moussa’, ‘Ly’, ‘Bretagne’),
+(3,’Jean’, ‘Luc’, ‘Marseille’),(4,’Issa’, ‘Diop’, ‘Matam’),(5,’amadou’, ‘sy’, ‘Diourbel’) ;
+
+Insert into Harvest values (1,1,3000),
+(1,6,2000),
+(2,2,300),
+(3,4,200),
+(4,3,2900),
+(5,5,1000) ;
+
+4)	La liste des producteurs 
+
+Select * from Producer ;
+
+5)	La liste des producteurs triés de nom
+Select firstName, lastName 
+From producer 
+Order by lastName ;
+
+6)	La liste des producteurs de Sousse
+
+Select firstName, lastName 
+From Producer
+Where region=’Sousse’ ;
+
+
+7)	La quantité totale de vin produite portant le numéro 12
+
+
+Select sum(h.quantity) as ‘Quantite_totale_12’ 
+From Wine w 
+Inner join Harvest h on w.numW=h.numW 
+Where w.degree=12 ;
+
+8)	La quantité totale de vin produite par catégorie
+
+Select w.category, sum(h.quantity) as ‘Quantite_totale_produite’ 
+From Wine w 
+Inner join Harvest h on w.numW=h.numW 
+Group by w.numW ;
+
+9)	Les producteurs ayant produit une quantité de vin inférieur á 300L 
+
+Select p.firstName, lastName
+From Producer p
+Inner join Harvest h on p.numP=h.numP
+Inner join Wine w on w.numW=h.numW
+Group by h.numP 
+Having h.quantite<300  order by p.firstName,lastName ASC ;
+10)	Les numéros des vins qui ont un degrés supérieur á 12 et qui ont produit par le producteur 24
+
+
+Select w.numW as ‘les_numero_vin_superieur_12’
+From Wine w
+Inner join Harvest h on h.numW=w.numW 
+Inner join Producer p on p.numP=h.numP
+Where w.degree>12 and (p.numP)=24 ; 
+
