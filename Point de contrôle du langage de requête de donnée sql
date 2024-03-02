@@ -7,7 +7,7 @@ CREATE TABLE client (
 b) Création de la table produit : 
 CREATE TABLE produit ( 
  id_produit INT PRIMARY KEY, 
- Nom_produit VARCHAR(20), 
+ Nom_produit VARCHAR(20),
  Categories VARCHAR(20), 
  Price INT 
 ); 
@@ -116,7 +116,7 @@ COUNT(cm.id) AS 'nombre_total_commandes'
 FROM client c 
 INNER JOIN commande cm ON c.id = cm.id 
 GROUP BY c.id
-ORDER BY COUNT(cm.id) ; 
+ORDER BY COUNT(cm.id) desc ; 
 10) Écrivez une requête pour récupérer les noms des produits les plus commandés, ainsi que la 
 quantité totale de chaque produit commandé. 
 SELECT p.Nom_produit, 
@@ -124,7 +124,7 @@ SELECT p.Nom_produit,
 FROM produit p 
 INNER JOIN commande cm ON p.id_produit = cm.id_produit 
 GROUP BY p.id_produit 
-ORDER BY COUNT(cm.Quantite) ; 
+ORDER BY COUNT(cm.Quantite) desc ; 
 11) Écrivez une requête pour récupérer les noms des clients qui ont passé une commande chaque 
 jour de la semaine, ainsi que le nombre total de commandes passées par chaque client. 
 SELECT c.Nom_client, 
