@@ -1,0 +1,66 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Wed Mar 20 09:29:59 2024
+
+@author: ousmane
+"""
+# Définition de la classe Account()
+import random
+class Account():
+    
+    # Liste pour stocker les numéros de compte déjà utilisés
+    used_account_numbers = []
+    
+    def __init__(self, montant=0):
+        self.montant = montant
+        self.numero_compte = self.generateur_unique()
+    
+    def generateur_unique(self):
+        k=True
+        while k==True:
+            # Générer un numéro de compte aléatoire
+            numero_compte = random.randint(100000, 999999)
+            # Vérifier s'il est déjà utilisé
+            if numero_compte not in Account.used_account_numbers:
+                k==False
+                # Si le numéro de compte est unique, l'ajouter à la liste des numéros utilisés
+                Account.used_account_numbers.append(numero_compte)
+                # Retourner le numéro de compte unique
+                return numero_compte
+            
+
+    
+    # Définition de la fonction deposit() qui permet d'effectuer un dépôt
+    def deposit(self, depot=0):
+        self.montant += depot
+        print('vous avez effectué un dépôt de ', depot)
+        return self.montant
+    
+    # Définition de la fonction remove() qui permet de faire un retrait dans le compte
+    def remove(self, retirer=0):
+        if retirer > self.montant:
+            print('impossible, le montant que vous avez saisi est supérieur au montant')
+        else:
+            self.montant -= retirer
+            print('vous avez effectué un retrait de  ', retirer, 'dans votre compte' )
+            return self.montant
+        
+    # Définition de la fonction check_balance qui nous permet d'afficher le solde disponible
+    def check_balance(self):
+        return 'le montant disponible dans votre compte est : ', self.montant
+
+# Créons des instances de la classe compte et vérifions avec les différentes 
+# méthodes en effectuant des retraits et dépôts 
+my_account = Account()
+my_account.deposit(1000000)
+my_account.remove(200000)
+print(my_account.check_balance())
+print(my_account.numero_compte)
+print('transition')
+
+
+my_account_1 = Account()
+my_account_1.deposit(2000)
+my_account_1.remove(100000)
+print(my_account_1.numero_compte)
+print(Account.used_account_numbers)
